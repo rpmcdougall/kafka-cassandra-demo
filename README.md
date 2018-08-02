@@ -27,7 +27,7 @@ Start the app
 ```
 
 ## TODO
-- Convert ILP string into POJO
+- ~Convert ILP string into POJO~
 - Send to Cassandra instance
 - Test with multiple instances of this group to verify consumer group behavior
 

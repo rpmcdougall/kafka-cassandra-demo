@@ -1,48 +1,29 @@
-Ratpack project template
+Kafka Cassandra Demo
 -----------------------------
+This project is to demonstrate how to make a simple Kafka data pipeline from a topic into a Cassandra database. This will also contain a simple ETL process for converting ILP from a topic into a POJO to make it more easily consumable. 
 
-You have just created a basic Groovy Ratpack application. It doesn't do much
-at this point, but we have set you up with a standard project structure, a 
-Guice back Registry, simple home page, and Spock for writing tests (because 
-you'd be mad not to use it).
+To start a test instance of Zookeeper, start the container with the included docker compose file
+```
+docker-compose up -d
+```
 
-In this project you get:
+To create a test topic download some useful Kafka tools [here](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.0.0/kafka_2.11-2.0.0.tgz).: 
 
-* A Gradle build file with pre-built Gradle wrapper
-* A tiny home page at src/ratpack/templates/index.html (it's a template)
-* A routing file at src/ratpack/Ratpack.groovy
-* Reloading enabled in build.gradle
-* A standard project structure:
+To create a topic with the aforementioned tools run the following:
+```
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic <topic name>
+```
 
-    <proj>
-      |
-      +- src
-          |
-          +- ratpack
-          |     |
-          |     +- Ratpack.groovy
-          |     +- ratpack.properties
-          |     +- public // Static assets in here
-          |          |
-          |          +- images
-          |          +- lib
-          |          +- scripts
-          |          +- styles
-          |
-          +- main
-          |   |
-          |   +- groovy
-                   |
-                   +- // App classes in here!
-          |
-          +- test
-              |
-              +- groovy
-                   |
-                   +- // Spock tests in here!
+You can send messages to the topic with the following command by entering them into the resulting prompt:
+```
+bin/kafka-console-producer.sh --broker-list localhost:9092 --topic <topic name>
+> some message
+> another message
+```
 
-That's it! You can start the basic app with
+## TODO
+- Convert ILP string into POJO
+- Send to Cassandra instance
+- Test with multiple instances of this group to verify consumer group behavior
 
-    ./gradlew run
 
-but it's up to you to add the bells, whistles, and meat of the application.

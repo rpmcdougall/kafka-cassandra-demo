@@ -3,7 +3,7 @@ package util
 import groovy.transform.Canonical
 
 class IlpParser {
-
+//https://www.programcreek.com/java-api-examples/index.php@source_dir=flex-blazeds-master/modules/core/src/flex/messaging/cluster/?code=mukatee/kafka-consumer/kafka-consumer-master/src/net/kanstren/kafka/influx/telegraf/InFluxTelegrafConsumer.java
     ParsedMeasure parse(String line) {
         line = line.replaceAll("\\\\ ", "_");
         String[] split = line.split(" ");

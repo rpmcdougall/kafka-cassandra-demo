@@ -1,5 +1,6 @@
 package services
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import models.WeatherMetric
@@ -17,6 +18,7 @@ import ratpack.func.Action
 import ratpack.func.Function
 import ratpack.service.StartEvent
 import ratpack.service.Service
+import util.IlpParser
 
 import javax.management.Query
 
@@ -71,10 +73,16 @@ class KafkaService implements Service, Action<Execution> {
     }
 
     Promise process(ConsumerRecords<String, String> records) {
+        ObjectMapper objectMapper = new ObjectMapper();
         for (ConsumerRecord<String, String> record : records) {
             println "offset: ${record.offset()}, key: ${record.key()} value: ${record.value()} on ${Thread.currentThread().name}"
 
-
+            IlpParser parser = new IlpParser()
+            def parsedRecord = parser.parse(record.value())
+            Map<String, String> map = objectMapper.convertValue(parsedRecord, Map.class)
+            println "-------"
+                println map
+            println "-------"
         }
         return Promise.value("Processed ${records.count()} messages.")
     }
